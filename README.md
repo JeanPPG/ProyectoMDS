@@ -23,20 +23,20 @@ El desarrollo del software se llevó a cabo siguiendo los principios y práctica
 
 El proyecto sigue una estructura de carpetas organizada de la siguiente manera:
 
-Proyecto_SCRUM/
+📂 Proyecto_SCRUM/
 │
-├── frontend/
-│ ├── gui.py
-│ └── tareas.py
+├── 📁 frontend/
+│ ├── 📄 gui.py
+│ └── 📄 tareas.py
+│ 
+├── 📁 icons/
+│ ├── 🖼️ tareas.png
+│ ├── 🖼️ proyectos.png
+│ └── 🖼️ reportes.png
 │
-├── icons/
-│ ├── tareas.png
-│ ├── proyectos.png
-│ └── reportes.png
-│
-├── main.py
-├── README.md
-└── tareas.csv
+├── 📄 main.py
+├── 📄 README.md
+└── 📄 tareas.csv
 
 
 ---
