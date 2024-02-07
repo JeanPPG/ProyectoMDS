@@ -19,24 +19,6 @@ El desarrollo del software se llevó a cabo siguiendo los principios y práctica
 
 ---
 
-## Estructura de Carpetas 📁
-
-El proyecto sigue una estructura de carpetas organizada de la siguiente manera:
-
-📂 Proyecto_SCRUM/
-│
-├── 📁 frontend/
-│ ├── 📄 gui.py
-│ └── 📄 tareas.py
-│ 
-├── 📁 icons/
-│ ├── 🖼️ tareas.png
-│ ├── 🖼️ proyectos.png
-│ └── 🖼️ reportes.png
-│
-├── 📄 main.py
-├── 📄 README.md
-└── 📄 tareas.csv
 
 
 ---
