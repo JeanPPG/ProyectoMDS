@@ -70,14 +70,14 @@ class TareasWindow:
         self.hide_frames()
         self.progress_frame.pack(fill="both", expand=True)
 
-    # Limpiar lista de tareas
+        # Limpiar lista de tareas
         for widget in self.progress_frame.winfo_children():
             widget.destroy()
 
-    # Leer tareas del archivo CSV
+        # Leer tareas del archivo CSV
         tasks = self.read_tasks()
 
-    # Mostrar tareas y su estado actual
+        # Mostrar tareas y su estado actual si hay tareas disponibles
         if tasks:
             ttk.Label(self.progress_frame, text="Tareas y estado:").pack(pady=5)
             for task in tasks:
@@ -87,7 +87,6 @@ class TareasWindow:
                     ttk.Label(self.progress_frame, text=f"{task[0]} - Estado: ERROR: Faltan datos").pack(anchor="w", padx=5)
         else:
             ttk.Label(self.progress_frame, text="No hay tareas disponibles").pack(pady=5)
-
 
     def hide_frames(self):
         self.create_task_frame.pack_forget()

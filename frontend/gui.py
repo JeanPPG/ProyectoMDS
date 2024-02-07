@@ -3,20 +3,21 @@ import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
 from frontend.tareas import TareasWindow
+from frontend.proyectos import ProyectosWindow
 
 class TaskManagerApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Gestor de Tareas")
+        self.root.title("Gestor de Tareas y Proyectos")
         self.root.geometry("600x400")
 
         # Obtener la ruta del directorio actual
         current_dir = os.path.dirname(__file__)
 
         # Cargar imágenes de los iconos desde el directorio actual
-        tasks_icon = Image.open(os.path.join(current_dir, "icons\\tareas.png")).resize((100, 100))
-        projects_icon = Image.open(os.path.join(current_dir, "icons\\proyectos.png")).resize((100, 100))
-        reports_icon = Image.open(os.path.join(current_dir, "icons\\reportes.png")).resize((100, 100))
+        tasks_icon = Image.open(os.path.join(current_dir, "icons/tareas.png")).resize((100, 100))
+        projects_icon = Image.open(os.path.join(current_dir, "icons/proyectos.png")).resize((100, 100))
+        reports_icon = Image.open(os.path.join(current_dir, "icons/reportes.png")).resize((100, 100))
 
         self.tasks_icon = ImageTk.PhotoImage(tasks_icon)
         self.projects_icon = ImageTk.PhotoImage(projects_icon)
@@ -42,8 +43,9 @@ class TaskManagerApp:
         tareas_app = TareasWindow(tareas_window)
 
     def open_projects(self):
-        # Lógica para abrir la ventana de proyectos
-        pass
+        # Abrir la ventana de proyectos
+        proyectos_window = tk.Toplevel(self.root)
+        proyectos_app = ProyectosWindow(proyectos_window)
 
     def open_reports(self):
         # Lógica para abrir la ventana de reportes
