@@ -2,7 +2,7 @@ import os
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
-from tareas import TareasWindow
+from frontend.tareas import TareasWindow
 
 class TaskManagerApp:
     def __init__(self, root):

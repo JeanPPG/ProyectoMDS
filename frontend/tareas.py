@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import csv
 
-class TaskManagerApp:
+class TareasWindow:
     def __init__(self, root):
         self.root = root
         self.root.title("Gestor de Tareas")
@@ -144,7 +144,7 @@ class TaskManagerApp:
 
 def run():
     root = tk.Tk()
-    app = TaskManagerApp(root)
+    app = TareasWindow(root)
     root.mainloop()
 
 if __name__ == "__main__":
