@@ -2,8 +2,9 @@ import os
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
-from frontend.tareas import TareasWindow
-from frontend.proyectos import ProyectosWindow
+from backend.tareas import TareasWindow
+from backend.proyectos import ProyectosWindow
+from backend.reportes import ReportesWindow
 
 class TaskManagerApp:
     def __init__(self, root):
@@ -48,8 +49,9 @@ class TaskManagerApp:
         proyectos_app = ProyectosWindow(proyectos_window)
 
     def open_reports(self):
-        # Lógica para abrir la ventana de reportes
-        pass
+        # Abrir la ventana de reportes
+        reportes_window = tk.Toplevel(self.root)
+        reportes_app = ReportesWindow(reportes_window)
 
 def run():
     root = tk.Tk()

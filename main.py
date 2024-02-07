@@ -1,5 +1,5 @@
 import tkinter as tk
-from frontend.gui import TaskManagerApp
+from backend.gui import TaskManagerApp
 
 def run():
     root = tk.Tk()
