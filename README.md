@@ -28,6 +28,10 @@ El desarrollo del software se llevó a cabo siguiendo los principios y práctica
 1. Clona este repositorio en tu máquina local.
 2. Asegúrate de tener instalado Python en tu sistema.
 3. Abre una terminal en la carpeta del proyecto.
+4. Ejecuta en la terminal para instalar lo requerido para iniciar la aplicacion
+```bash
+pip install requerimientos.txt
+```
 4. Ejecuta `main.py` para iniciar la aplicación.
 
 ```bash
