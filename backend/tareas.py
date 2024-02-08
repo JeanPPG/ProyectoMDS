@@ -80,11 +80,17 @@ class TareasWindow:
         # Mostrar tareas y su estado actual si hay tareas disponibles
         if tasks:
             ttk.Label(self.progress_frame, text="Tareas y estado:").pack(pady=5)
+            # Crear tabla de tareas
+            self.table = ttk.Treeview(self.progress_frame, columns=("Nombre", "Descripción", "Alumno", "Estado"), show="headings")
+            self.table.heading("Nombre", text="Nombre")
+            self.table.heading("Descripción", text="Descripción")
+            self.table.heading("Alumno", text="Alumno")
+            self.table.heading("Estado", text="Estado")
             for task in tasks:
-                if len(task) >= 4:  # Comprobación de que la lista tiene al menos 4 elementos
-                    ttk.Label(self.progress_frame, text=f"{task[0]} - Estado: {task[3]}").pack(anchor="w", padx=5)
-                else:
-                    ttk.Label(self.progress_frame, text=f"{task[0]} - Estado: ERROR: Faltan datos").pack(anchor="w", padx=5)
+                self.table.insert("", "end", values=task)
+            self.table.pack(pady=5)
+            # Botón para eliminar tarea
+            ttk.Button(self.progress_frame, text="Eliminar Tarea", command=self.delete_task).pack(pady=10)
         else:
             ttk.Label(self.progress_frame, text="No hay tareas disponibles").pack(pady=5)
 
@@ -131,6 +137,26 @@ class TareasWindow:
             # Limpiar los campos de entrada después de asignar la tarea
             self.student_name_entry.delete(0, tk.END)
             self.selected_task.set("")
+
+    def delete_task(self):
+        selected_item = self.table.selection()[0]
+        task_name = self.table.item(selected_item, "values")[0]
+        if task_name:
+            # Leer tareas del archivo CSV
+            tasks = self.read_tasks()
+            # Eliminar tarea seleccionada
+            updated_tasks = []
+            for task in tasks:
+                if task[0] != task_name:
+                    updated_tasks.append(task)
+            # Actualizar archivo CSV con las tareas restantes
+            with open('tareas.csv', mode='w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerows(updated_tasks)
+            print("Tarea eliminada:", task_name)
+
+            # Actualizar la vista de seguimiento de tareas
+            self.show_progress()
 
     def read_tasks(self):
         try:
