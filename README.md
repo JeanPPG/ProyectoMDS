@@ -17,9 +17,7 @@ Para comenzar a utilizar Proyecto SCRUM, sigue los siguientes pasos:
 2. **Instalación de un IDE de Desarrollo (Opcional)**:
    - Se recomienda utilizar un entorno de desarrollo integrado (IDE) como PyCharm o Visual Studio Code para un desarrollo más eficiente.
 
-3. **Configuración de GitHub**:
-   - Crea una cuenta en GitHub si aún no la tienes.
-   - Configura Git en tu sistema y sincronízalo con tu cuenta de GitHub.
+3. **Clonacion del repositorio**:
    - Clona este repositorio en tu máquina local utilizando el comando:
      ```
      git clone https://github.com/JeanPPG/ProyectoMDS.git
