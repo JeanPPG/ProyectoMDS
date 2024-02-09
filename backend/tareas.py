@@ -1,6 +1,9 @@
+import os
 import tkinter as tk
 from tkinter import ttk
 import csv
+
+from PIL import Image, ImageTk
 
 class TareasWindow:
     def __init__(self, root):
@@ -8,13 +11,28 @@ class TareasWindow:
         self.root.title("Gestor de Tareas")
         self.root.geometry("600x400")
 
+        # Obtener la ruta del directorio actual
+        current_dir = os.path.dirname(__file__)
+
+        # Cargar iconos
+        create_icon = Image.open(os.path.join(current_dir, "icons/create_icon.png")).resize((32, 32))
+        assign_icon = Image.open(os.path.join(current_dir, "icons/assign_icon.png")).resize((32, 32))
+        progress_icon = Image.open(os.path.join(current_dir, "icons/progress_icon.png")).resize((32, 32))
+
+        
+        # Convertir iconos a formato PhotoImage
+        self.create_icon = ImageTk.PhotoImage(create_icon)
+        self.assign_icon = ImageTk.PhotoImage(assign_icon)
+        self.progress_icon = ImageTk.PhotoImage(progress_icon)
+
         # Frame para la selección de opciones
         self.options_frame = ttk.LabelFrame(self.root, text="Opciones")
         self.options_frame.pack(fill="both", expand=True, padx=20, pady=20)
 
-        ttk.Button(self.options_frame, text="Crear Tarea", command=self.create_task).pack(side="left", padx=10, pady=10)
-        ttk.Button(self.options_frame, text="Asignar Tarea", command=self.assign_task).pack(side="left", padx=10, pady=10)
-        ttk.Button(self.options_frame, text="Seguimiento", command=self.show_progress).pack(side="left", padx=10, pady=10)
+        # Botones de opciones con iconos
+        ttk.Button(self.options_frame, text="Crear Tarea", image=self.create_icon, compound=tk.LEFT, command=self.create_task).pack(side="left", padx=10, pady=10)
+        ttk.Button(self.options_frame, text="Asignar Tarea", image=self.assign_icon, compound=tk.LEFT, command=self.assign_task).pack(side="left", padx=10, pady=10)
+        ttk.Button(self.options_frame, text="Seguimiento", image=self.progress_icon, compound=tk.LEFT, command=self.show_progress).pack(side="left", padx=10, pady=10)
 
         # Frame para crear tarea
         self.create_task_frame = ttk.LabelFrame(self.root, text="Crear Tarea")
