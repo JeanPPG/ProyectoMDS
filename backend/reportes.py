@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 import csv
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
@@ -37,28 +37,36 @@ class ReportesWindow:
         # Leer datos de proyectos desde el archivo CSV
         projects_data = self.read_csv("proyectos.csv")
 
-        # Generar PDF
-        doc = SimpleDocTemplate("reporte.pdf", pagesize=letter)
-        content = []
+        # Verificar si hay datos disponibles
+        if tasks_data or projects_data:
+            # Generar PDF
+            doc = SimpleDocTemplate("reporte.pdf", pagesize=letter)
+            content = []
 
-        # Estilo para el texto centrado
-        centered_style = ParagraphStyle(name="Centered", alignment=TA_CENTER)
+            # Estilo para el texto centrado
+            centered_style = ParagraphStyle(name="Centered", alignment=TA_CENTER)
 
-        # Encabezado
-        header_text = "<b>Universidad de las Fuerzas Armadas ESPE</b><br/><br/>Departamento de Ciencias de la Computación<br/><br/>Metodologías del Desarrollo de Software<br/><br/>"
-        content.append(Paragraph(header_text, centered_style))
+            # Encabezado
+            header_text = "<b>Universidad de las Fuerzas Armadas ESPE</b><br/><br/>Departamento de Ciencias de la Computación<br/><br/>Metodologías del Desarrollo de Software<br/><br/>"
+            content.append(Paragraph(header_text, centered_style))
 
-        # Tabla de tareas
-        tasks_table = self.create_table(tasks_data)
-        content.append(Paragraph("<b>Tareas:</b>", centered_style))
-        content.append(tasks_table)
+            # Tabla de tareas
+            if tasks_data:
+                tasks_table = self.create_table(tasks_data)
+                content.append(Paragraph("<b>Tareas:</b>", centered_style))
+                content.append(tasks_table)
 
-        # Tabla de proyectos
-        projects_table = self.create_table(projects_data)
-        content.append(Paragraph("<b>Proyectos:</b>", centered_style))
-        content.append(projects_table)
+            # Tabla de proyectos
+            if projects_data:
+                projects_table = self.create_table(projects_data)
+                content.append(Paragraph("<b>Proyectos:</b>", centered_style))
+                content.append(projects_table)
 
-        doc.build(content)
+            doc.build(content)
+            messagebox.showinfo("Generación Exitosa", "El reporte se generó correctamente.")
+        else:
+            messagebox.showwarning("Sin Datos", "No hay datos disponibles para generar el informe.")
+
 
     def create_table(self, data):
         table = Table(data)
