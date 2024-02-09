@@ -1,35 +1,71 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import csv
+import matplotlib.pyplot as plt
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
 
+
 class ReportesWindow:
     def __init__(self, root):
         self.root = root
         self.root.title("Reportes")
-        self.root.geometry("600x400")
+        self.root.geometry("800x600")
+
+        # Frame principal
+        self.main_frame = ttk.Frame(self.root)
+        self.main_frame.pack(fill="both", expand=True)
 
         # Frame para el dashboard
-        self.dashboard_frame = ttk.LabelFrame(self.root, text="Dashboard")
+        self.dashboard_frame = ttk.LabelFrame(self.main_frame, text="Dashboard")
         self.dashboard_frame.pack(fill="both", expand=True, padx=20, pady=20)
 
-        ttk.Label(self.dashboard_frame, text="Resumen de Tareas Pendientes:").pack(pady=5)
-        self.pending_tasks_label = ttk.Label(self.dashboard_frame, text="0")
-        self.pending_tasks_label.pack(pady=5)
-
-        ttk.Label(self.dashboard_frame, text="Resumen de Proyectos en Curso:").pack(pady=5)
-        self.ongoing_projects_label = ttk.Label(self.dashboard_frame, text="0")
-        self.ongoing_projects_label.pack(pady=5)
-
+        # Botones de generación de dashboard y reporte
+        ttk.Button(self.dashboard_frame, text="Generar Dashboard de Tareas", command=self.generate_task_dashboard).pack(side="left", padx=10, pady=10)
+        ttk.Button(self.dashboard_frame, text="Generar Dashboard de Proyectos", command=self.generate_project_dashboard).pack(side="left", padx=10, pady=10)
+        
         # Frame para los reportes básicos
-        self.reports_frame = ttk.LabelFrame(self.root, text="Reportes Básicos")
+        self.reports_frame = ttk.LabelFrame(self.main_frame, text="Reportes Básicos")
         self.reports_frame.pack(fill="both", expand=True, padx=20, pady=20)
 
-        ttk.Button(self.reports_frame, text="Generar Reporte", command=self.generate_report).pack(pady=10)
+        ttk.Button(self.reports_frame, text="Generar Reporte General", command=self.generate_report).pack(pady=10)
+
+    def generate_task_dashboard(self):
+        # Leer datos de tareas desde el archivo CSV
+        tasks_data = self.read_csv("tareas.csv")
+
+        # Obtener la cantidad de tareas pendientes
+        pending_tasks = len(tasks_data) - 1  # Restamos 1 para excluir la fila de encabezado
+
+        # Crear gráfico de barras para tareas
+        labels = ["Tareas Pendientes"]
+        values = [pending_tasks]
+
+        plt.bar(labels, values)
+        plt.xlabel("Categoría")
+        plt.ylabel("Cantidad")
+        plt.title("Dashboard de Tareas")
+        plt.show()
+
+    def generate_project_dashboard(self):
+        # Leer datos de proyectos desde el archivo CSV
+        projects_data = self.read_csv("proyectos.csv")
+
+        # Obtener la cantidad de proyectos en curso
+        ongoing_projects = len(projects_data) - 1  # Restamos 1 para excluir la fila de encabezado
+
+        # Crear gráfico de barras para proyectos
+        labels = ["Proyectos en Curso"]
+        values = [ongoing_projects]
+
+        plt.bar(labels, values)
+        plt.xlabel("Categoría")
+        plt.ylabel("Cantidad")
+        plt.title("Dashboard de Proyectos")
+        plt.show()
 
     def generate_report(self):
         # Leer datos de tareas desde el archivo CSV
@@ -67,7 +103,6 @@ class ReportesWindow:
         else:
             messagebox.showwarning("Sin Datos", "No hay datos disponibles para generar el informe.")
 
-
     def create_table(self, data):
         table = Table(data)
         table.setStyle(TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.grey),
@@ -88,10 +123,12 @@ class ReportesWindow:
         except FileNotFoundError:
             return []
 
+
 def run():
     root = tk.Tk()
     app = ReportesWindow(root)
     root.mainloop()
+
 
 if __name__ == "__main__":
     run()
