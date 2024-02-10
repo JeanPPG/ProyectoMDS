@@ -1,6 +1,7 @@
 import os
 import tkinter as tk
 from tkinter import ttk
+from tkinter import ttk, messagebox
 import csv
 
 from PIL import Image, ImageTk
@@ -138,6 +139,8 @@ class TareasWindow:
             print("Tarea creada y guardada:")
             print("Nombre de la Tarea:", task_name)
             print("Descripción:", task_description)
+            # Mostrar mensaje de éxito
+            messagebox.showinfo("Éxito", "Tarea creada y guardada exitosamente.")
 
             # Limpiar los campos de entrada después de crear la tarea
             self.task_name_entry.delete(0, tk.END)
@@ -164,6 +167,8 @@ class TareasWindow:
             print("Nombre de la Tarea:", task_name)
             print("Estudiante Asignado:", student_name)
             print("Estado: En Curso")
+            # Mostrar mensaje de éxito
+            messagebox.showinfo("Éxito", "Tarea asignada y actualizada exitosamente.")
 
             # Limpiar los campos de entrada después de asignar la tarea
             self.selected_task.set("")
@@ -182,6 +187,8 @@ class TareasWindow:
                 writer = csv.writer(file)
                 writer.writerows(updated_tasks)
             print("Tarea eliminada:", task_name)
+            # Mostrar mensaje de éxito
+            messagebox.showinfo("Éxito", "Tarea eliminada exitosamente.")
 
             # Actualizar la vista de seguimiento de tareas
             self.show_progress()

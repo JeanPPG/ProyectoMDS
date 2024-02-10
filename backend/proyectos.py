@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from tkcalendar import Calendar
 import csv
 
@@ -112,6 +112,9 @@ class ProyectosWindow:
             print("Fecha Final:", end_date)
             print("Estudiantes asignados:", ", ".join(self.assigned_students))
 
+            # Mostrar mensaje de éxito
+            messagebox.showinfo("Éxito", "Proyecto creado y guardado exitosamente.")
+
             # Limpiar los campos de entrada después de crear el proyecto
             self.project_title_entry.delete(0, tk.END)
             self.project_objectives_entry.delete(0, tk.END)
@@ -195,6 +198,8 @@ class ProyectosWindow:
             self.assigned_students.clear()
             # Actualizar la etiqueta de nombres de estudiantes asignados
             self.update_assigned_students_label()
+            # Mostrar mensaje de éxito
+            messagebox.showinfo("Éxito", "Estudiantes asignados guardados exitosamente.")
         else:
             print("Por favor selecciona un proyecto y asigna al menos un estudiante.")
 
