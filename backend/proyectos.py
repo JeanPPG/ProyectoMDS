@@ -51,12 +51,15 @@ class ProyectosWindow:
         self.projects_combo.grid(row=0, column=0, padx=5, pady=5)
         ttk.Button(self.project_selection_frame, text="Mostrar Proyectos", command=self.populate_projects_combo).grid(row=0, column=1, padx=5, pady=5)
 
-        self.assign_members_label = ttk.Label(self.assign_members_frame, text="Nombre del estudiante:")
+        self.assign_members_label = ttk.Label(self.assign_members_frame, text="Nombres de estudiantes asignados:")
         self.assign_members_label.grid(row=1, column=0, padx=5, pady=5)
-        self.assign_members_entry = ttk.Entry(self.assign_members_frame)
+        self.assign_members_entry = ttk.Combobox(self.assign_members_frame, state="readonly", values=[])
         self.assign_members_entry.grid(row=1, column=1, padx=5, pady=5)
+        self.assign_members_entry.set("Seleccionar estudiante")
         self.assign_members_button = ttk.Button(self.assign_members_frame, text="Asignar", command=self.add_student)
         self.assign_members_button.grid(row=1, column=2, padx=5, pady=5)
+        self.save_assigned_students_button = ttk.Button(self.assign_members_frame, text="Guardar Estudiantes", command=self.save_assigned_students)
+        self.save_assigned_students_button.grid(row=2, column=0, columnspan=3, padx=5, pady=5)
 
         # Frame para el seguimiento del progreso del proyecto
         self.progress_frame = ttk.LabelFrame(self.main_frame, text="Seguimiento del Progreso")
@@ -80,6 +83,7 @@ class ProyectosWindow:
     def assign_members(self):
         self.hide_frames()
         self.assign_members_frame.pack(fill="both", expand=True)
+        self.populate_students_combo()
 
     def show_progress(self):
         self.hide_frames()
@@ -117,7 +121,7 @@ class ProyectosWindow:
 
     def add_student(self):
         student_name = self.assign_members_entry.get()
-        if student_name:
+        if student_name and student_name not in self.assigned_students:
             self.assigned_students.append(student_name)
             print("Estudiante asignado:", student_name)
             self.update_assigned_students_label()
@@ -126,7 +130,7 @@ class ProyectosWindow:
         if self.assigned_students:
             self.assign_members_label.config(text="Nombres de estudiantes asignados:\n" + "\n".join(self.assigned_students))
         else:
-            self.assign_members_label.config(text="Nombre del estudiante:")
+            self.assign_members_label.config(text="Nombres de estudiantes asignados:")
 
     def populate_projects_combo(self):
         # Limpiar el Combobox
@@ -138,6 +142,18 @@ class ProyectosWindow:
             project_titles = [project[0] for project in projects]
             self.projects_combo["values"] = project_titles
             self.projects_combo.current(0)
+
+    def populate_students_combo(self):
+        try:
+            with open('lista_estudiantes.csv', mode='r', newline='') as file:
+                reader = csv.reader(file)
+                students = list(reader)
+                if students:
+                    student_names = [student[0] for student in students]
+                    self.assign_members_entry["values"] = student_names
+                    self.assign_members_entry.current(0)
+        except FileNotFoundError:
+            print("No se encontró el archivo 'lista_estudiantes.csv'")
 
     def read_projects(self):
         try:
@@ -158,6 +174,30 @@ class ProyectosWindow:
         if projects:
             for idx, project in enumerate(projects, start=1):
                 self.progress_tree.insert("", "end", text=str(idx), values=project)
+
+    def save_assigned_students(self):
+        selected_project = self.projects_combo.get()
+        if selected_project and self.assigned_students:
+            # Leer proyectos del archivo CSV
+            projects = self.read_projects()
+            # Actualizar estudiantes asignados al proyecto seleccionado
+            updated_projects = []
+            for project in projects:
+                if project[0] == selected_project:
+                    project[5] = ", ".join(self.assigned_students)
+                updated_projects.append(project)
+            # Actualizar archivo CSV con los proyectos actualizados
+            with open('proyectos.csv', mode='w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerows(updated_projects)
+            print("Estudiantes asignados guardados para el proyecto:", selected_project)
+            # Limpiar la lista de estudiantes asignados después de guardar
+            self.assigned_students.clear()
+            # Actualizar la etiqueta de nombres de estudiantes asignados
+            self.update_assigned_students_label()
+        else:
+            print("Por favor selecciona un proyecto y asigna al menos un estudiante.")
+
 
 def run():
     root = tk.Tk()
