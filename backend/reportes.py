@@ -1,13 +1,14 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import csv
+import os
 import matplotlib.pyplot as plt
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
-
+from PIL import Image, ImageTk
 
 class ReportesWindow:
     def __init__(self, root):
@@ -19,19 +20,30 @@ class ReportesWindow:
         self.main_frame = ttk.Frame(self.root)
         self.main_frame.pack(fill="both", expand=True)
 
+        # Obtener la ruta del directorio actual
+        current_dir = os.path.dirname(__file__)
+
+        # Cargar iconos
+        dashboard_icon = Image.open(os.path.join(current_dir, "icons/dashboard_icon.png")).resize((32, 32))
+        report_icon = Image.open(os.path.join(current_dir, "icons/pdf_icon.png")).resize((32, 32))
+
+        # Convertir iconos a formato PhotoImage
+        self.dashboard_icon = ImageTk.PhotoImage(dashboard_icon)
+        self.report_icon = ImageTk.PhotoImage(report_icon)
+
         # Frame para el dashboard
         self.dashboard_frame = ttk.LabelFrame(self.main_frame, text="Dashboard")
         self.dashboard_frame.pack(fill="both", expand=True, padx=20, pady=20)
 
         # Botones de generación de dashboard y reporte
-        ttk.Button(self.dashboard_frame, text="Generar Dashboard de Tareas", command=self.generate_task_dashboard).pack(side="left", padx=10, pady=10)
-        ttk.Button(self.dashboard_frame, text="Generar Dashboard de Proyectos", command=self.generate_project_dashboard).pack(side="left", padx=10, pady=10)
+        ttk.Button(self.dashboard_frame, text="Generar Dashboard de Tareas", image=self.dashboard_icon, compound=tk.LEFT,command=self.generate_task_dashboard).pack(side="left", padx=10, pady=10)
+        ttk.Button(self.dashboard_frame, text="Generar Dashboard de Proyectos",image=self.dashboard_icon, compound=tk.LEFT, command=self.generate_project_dashboard).pack(side="left", padx=10, pady=10)
         
         # Frame para los reportes básicos
         self.reports_frame = ttk.LabelFrame(self.main_frame, text="Reportes Básicos")
         self.reports_frame.pack(fill="both", expand=True, padx=20, pady=20)
 
-        ttk.Button(self.reports_frame, text="Generar Reporte General", command=self.generate_report).pack(pady=10)
+        ttk.Button(self.reports_frame, text="Generar Reporte General",image=self.report_icon, compound=tk.LEFT, command=self.generate_report).pack(pady=10)
 
     def generate_task_dashboard(self):
         # Leer datos de tareas desde el archivo CSV

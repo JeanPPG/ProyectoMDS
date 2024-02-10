@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from tkcalendar import Calendar
 import csv
+import os
+from PIL import Image, ImageTk
 
 class ProyectosWindow:
     def __init__(self, root):
@@ -13,13 +15,26 @@ class ProyectosWindow:
         self.main_frame = ttk.Frame(self.root)
         self.main_frame.pack(fill="both", expand=True)
 
+        # Obtener la ruta del directorio actual
+        current_dir = os.path.dirname(__file__)
+
+        # Cargar iconos
+        create_icon = Image.open(os.path.join(current_dir, "icons/createp_icon.png")).resize((32, 32))
+        assign_icon = Image.open(os.path.join(current_dir, "icons/assignp_icon.png")).resize((32, 32))
+        progress_icon = Image.open(os.path.join(current_dir, "icons/progressp_icon.png")).resize((32, 32))
+
+        # Convertir iconos a formato PhotoImage
+        self.create_icon = ImageTk.PhotoImage(create_icon)
+        self.assign_icon = ImageTk.PhotoImage(assign_icon)
+        self.progress_icon = ImageTk.PhotoImage(progress_icon)
+
         # Frame para la selección de opciones
         self.options_frame = ttk.LabelFrame(self.main_frame, text="Opciones")
         self.options_frame.pack(fill="both", expand=True, padx=20, pady=20)
 
-        ttk.Button(self.options_frame, text="Crear Proyecto", command=self.create_project).pack(side="left", padx=10, pady=10)
-        ttk.Button(self.options_frame, text="Asignar Miembros", command=self.assign_members).pack(side="left", padx=10, pady=10)
-        ttk.Button(self.options_frame, text="Seguimiento del Progreso", command=self.show_progress).pack(side="left", padx=10, pady=10)
+        ttk.Button(self.options_frame, text="Crear Proyecto", image=self.create_icon, compound=tk.LEFT, command=self.create_project).pack(side="left", padx=10, pady=10)
+        ttk.Button(self.options_frame, text="Asignar Miembros", image=self.assign_icon, compound=tk.LEFT, command=self.assign_members).pack(side="left", padx=10, pady=10)
+        ttk.Button(self.options_frame, text="Seguimiento del Progreso", image=self.progress_icon, compound=tk.LEFT, command=self.show_progress).pack(side="left", padx=10, pady=10)
 
         # Frame para crear proyecto
         self.create_project_frame = ttk.LabelFrame(self.main_frame, text="Crear Proyecto")

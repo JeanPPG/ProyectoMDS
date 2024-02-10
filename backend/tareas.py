@@ -1,6 +1,5 @@
 import os
 import tkinter as tk
-from tkinter import ttk
 from tkinter import ttk, messagebox
 import csv
 
@@ -10,7 +9,7 @@ class TareasWindow:
     def __init__(self, root):
         self.root = root
         self.root.title("Gestor de Tareas")
-        self.root.geometry("600x800")
+        self.root.geometry("800x750")
 
         # Obtener la ruta del directorio actual
         current_dir = os.path.dirname(__file__)
@@ -19,11 +18,15 @@ class TareasWindow:
         create_icon = Image.open(os.path.join(current_dir, "icons/create_icon.png")).resize((32, 32))
         assign_icon = Image.open(os.path.join(current_dir, "icons/assign_icon.png")).resize((32, 32))
         progress_icon = Image.open(os.path.join(current_dir, "icons/progress_icon.png")).resize((32, 32))
+        files_icon = Image.open(os.path.join(current_dir, "icons/files_icon.png")).resize((32, 32))
+        comments_icon = Image.open(os.path.join(current_dir, "icons/comment_icon.png")).resize((32, 32))
 
         # Convertir iconos a formato PhotoImage
         self.create_icon = ImageTk.PhotoImage(create_icon)
         self.assign_icon = ImageTk.PhotoImage(assign_icon)
         self.progress_icon = ImageTk.PhotoImage(progress_icon)
+        self.files_icon = ImageTk.PhotoImage(files_icon)
+        self.comments_icon = ImageTk.PhotoImage(comments_icon)
 
         # Frame para la selección de opciones
         self.options_frame = ttk.LabelFrame(self.root, text="Opciones")
@@ -33,6 +36,8 @@ class TareasWindow:
         ttk.Button(self.options_frame, text="Crear Tarea", image=self.create_icon, compound=tk.LEFT, command=self.create_task).pack(side="left", padx=10, pady=10)
         ttk.Button(self.options_frame, text="Asignar Tarea", image=self.assign_icon, compound=tk.LEFT, command=self.assign_task).pack(side="left", padx=10, pady=10)
         ttk.Button(self.options_frame, text="Seguimiento", image=self.progress_icon, compound=tk.LEFT, command=self.show_progress).pack(side="left", padx=10, pady=10)
+        ttk.Button(self.options_frame, text="Archivos", image=self.files_icon, compound=tk.LEFT, command=self.show_files).pack(side="left", padx=10, pady=10)
+        ttk.Button(self.options_frame, text="Comentarios", image=self.comments_icon, compound=tk.LEFT, command=self.show_comments).pack(side="left", padx=10, pady=10)
 
         # Frame para crear tarea
         self.create_task_frame = ttk.LabelFrame(self.root, text="Crear Tarea")
@@ -54,6 +59,12 @@ class TareasWindow:
 
         # Frame para el seguimiento del progreso de tareas
         self.progress_frame = ttk.LabelFrame(self.root, text="Seguimiento")
+
+        # Frame para mostrar archivos
+        self.files_frame = ttk.LabelFrame(self.root, text="Archivos")
+
+        # Frame para mostrar comentarios
+        self.comments_frame = ttk.LabelFrame(self.root, text="Comentarios")
 
         # Mostrar solo las opciones al inicio
         self.hide_frames()
@@ -123,10 +134,22 @@ class TareasWindow:
         else:
             ttk.Label(self.progress_frame, text="No hay tareas disponibles").pack(pady=5)
 
+    def show_files(self):
+        self.hide_frames()
+        self.files_frame.pack(fill="both", expand=True)
+        messagebox.showinfo("Función por implementar", "Esta función aún está por implementar.")
+
+    def show_comments(self):
+        self.hide_frames()
+        self.comments_frame.pack(fill="both", expand=True)
+        messagebox.showinfo("Función por implementar", "Esta función aún está por implementar.")
+
     def hide_frames(self):
         self.create_task_frame.pack_forget()
         self.assign_task_frame.pack_forget()
         self.progress_frame.pack_forget()
+        self.files_frame.pack_forget()
+        self.comments_frame.pack_forget()
 
     def save_task(self):
         task_name = self.task_name_entry.get()
